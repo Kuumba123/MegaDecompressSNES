@@ -1,0 +1,16 @@
+#vs code
+/.vscode
+
+#build files
+/__pycache__
+
+#snes roms
+*.sfc
+*.smc
+
+#test folders/files
+/EXTRACT
+/DECOMPRESS
+/TEST
+*.asm
+*.bin
