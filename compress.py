@@ -87,10 +87,10 @@ def compressChr(inputPath: str,output_file: str):
     print(f"Compressed Size: {len(compressedBytes):X}  Uncompressed Size: {dataLength:X}")
 
 #Start of the Program
-if len(sys.argv) < 2 or len(sys.argv) > 3:
+if len(sys.argv) < 3:
     print("Made by PogChampGuy AKA Kuumba")
     print("This Program is used for Compressing CHR Data for MegaMan 7, MegaMan X2/X3 and MegaMan & Bass")
-    print("Usage: python compress.py <input_file> [output_file]")
+    print("Usage: python compress.py <input_file> <output_file>")
 else:
     output_file = ""
     if len(sys.argv) == 3:
