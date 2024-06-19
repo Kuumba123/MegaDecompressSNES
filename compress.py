@@ -40,7 +40,7 @@ def compressChr(inputPath: str,output_file: str):
 
         #If a match is found, add a tuple (distance, length, next character) to the compressed data
         #Also check to see if there is still space left to look ahead
-        if matchLength > 1 and (i + matchLength) < dataLength and (dataLength - i) > 6: #TODO: might be buggy
+        if matchLength > 1 and (i + matchLength) < dataLength and (dataLength - i) > 3:
             compressedData.append((matchDistance, matchLength, inputData[i + matchLength]))
             i += matchLength
         else:
@@ -77,6 +77,10 @@ def compressChr(inputPath: str,output_file: str):
             offset = len(compressedBytes)
         else:
             controlB <<= 1
+
+    if controlC < 8: #check if control byte has been written
+        controlB <<= (controlC - 1)
+        compressedBytes.insert(offset,controlB)
 
     #Done
     if output_file == "":
