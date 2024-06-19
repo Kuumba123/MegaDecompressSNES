@@ -1,8 +1,7 @@
 import sys
-import math
 
 
-def compressChr(inputPath: str):
+def compressChr(inputPath: str,output_file: str):
     WINDOW_SIZE = 0x3FF
     MAX_LENGTH = 0x3F
     
@@ -13,6 +12,8 @@ def compressChr(inputPath: str):
     compressedBytes = bytearray()
     i = 0
     dataLength = len(inputData)
+
+    print("attempting to find matches")
 
     while i < len(inputData):
         matchLength = 0
@@ -39,7 +40,7 @@ def compressChr(inputPath: str):
 
         #If a match is found, add a tuple (distance, length, next character) to the compressed data
         #Also check to see if there is still space left to look ahead
-        if matchLength > 1 and (i + matchLength + 3) < dataLength:
+        if matchLength > 1 and (i + matchLength) < dataLength and (dataLength - i) > 6: #TODO: might be buggy
             compressedData.append((matchDistance, matchLength, inputData[i + matchLength]))
             i += matchLength
         else:
@@ -53,6 +54,8 @@ def compressChr(inputPath: str):
     controlB = 0
     controlC = 8
     offset = 0
+
+    print("ouputing compressed data")
 
     for distance, length, next_char in compressedData:
 
@@ -76,14 +79,20 @@ def compressChr(inputPath: str):
             controlB <<= 1
 
     #Done
-    with open(f"COMPRESSED_{inputPath}","wb") as outputFile:
+    if output_file == "":
+        output_file = f"COMPRESSED_{inputPath}"
+    with open(output_file,"wb") as outputFile:
         outputFile.write(compressedBytes)
+    print(f"The file - {inputPath} has been compressed")
+    print(f"Compressed Size: {len(compressedBytes):X}  Uncompressed Size: {dataLength:X}")
 
 #Start of the Program
 if len(sys.argv) < 2 or len(sys.argv) > 3:
     print("Made by PogChampGuy AKA Kuumba")
-    print("This Program is used for extracting Compressed CHR Data from MegaMan 7")
-    print("Usage: python compress.py <input_file>")
+    print("This Program is used for Compressing CHR Data for MegaMan 7, MegaMan X2/X3 and MegaMan & Bass")
+    print("Usage: python compress.py <input_file> [output_file]")
 else:
-    compressChr(sys.argv[1])
-    print("")
+    output_file = ""
+    if len(sys.argv) == 3:
+        output_file = sys.argv[2]
+    compressChr(sys.argv[1],output_file)
