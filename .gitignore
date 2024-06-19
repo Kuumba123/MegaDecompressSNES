@@ -12,5 +12,10 @@
 /EXTRACT
 /DECOMPRESS
 /TEST
+/MM7
+/RM_F
+/MMX
+/MMX2
+/MMX3
 *.asm
 *.bin
